@@ -1,0 +1,7 @@
+{
+  "JSDoc 单行": {
+    "prefix": "/**",
+    "body": ["/** $1 */"],
+    "description": "插入单行 JSDoc 注释。输入: prefix 按Tab",
+  },
+}
