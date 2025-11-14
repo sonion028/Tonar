@@ -52,3 +52,4 @@ jobs:
           echo "Publish succeeded!"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # 在npm生成access token，假如github具体仓库的Settings->Security->Secrets and variables->Actions
