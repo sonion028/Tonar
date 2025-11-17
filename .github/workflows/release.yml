@@ -107,7 +107,7 @@ jobs:
           echo "npm 登录状态检查:"
           npm whoami || echo "npm 未登录（这是正常的，我们使用 token 认证）"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUBPUBLISHTONAR }}
 
       # 发布到 npm registry - 只在标签触发时执行
       - name: Publish to npm
@@ -117,5 +117,5 @@ jobs:
           npm publish --access public --verbose
           echo "发布成功"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUBPUBLISHTONAR }}
           # 在npm生成access token，假如github具体仓库的Settings->Security->Secrets and variables->Actions
