@@ -6,4 +6,4 @@ export default {
   bracketSpacing: true, // 对象字面量是否添加空格
   useTabs: false, // 是否tab缩进
   tabWidth: 2, // 缩进空格数
-}
+};
