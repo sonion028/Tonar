@@ -20,18 +20,18 @@ jobs:
           echo "GITHUB_REF=$GITHUB_REF"
           echo "GITHUB_SHA=$GITHUB_SHA"
 
+      - name: Install pnpm globally # 全局安装 pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+          # version: 10.22.0 # 不写version会读取package.json 的 engines.pnpm
+
       - name: Setup Node.js # 安装 node
         uses: actions/setup-node@v4
         with:
           node-version: 24.11.1 # 建议用 LTS 版本，稳定性更好
           registry-url: 'https://registry.npmjs.org/'
           cache: 'pnpm'
-
-      - name: Install pnpm globally # 全局安装 pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-          # version: 10.22.0 # 不写version会读取package.json 的 engines.pnpm
 
       - name: Install dependencies with pnpm # 使用 pnpm 安装依赖 等价于 npm ci
         run: pnpm install --frozen-lockfile
