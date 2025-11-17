@@ -58,9 +58,16 @@ jobs:
           pnpm install --frozen-lockfile --verbose
           echo "依赖安装完成"
 
-      # 安装 jq（解决版本同步可能的依赖问题）
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
+      # 检查并安装 jq（如果不存在）
+      - name: Check and install jq
+        run: |
+          if ! command -v jq &> /dev/null; then
+            echo "jq 未找到，开始安装..."
+            sudo apt-get update && sudo apt-get install -y jq
+            echo "jq 安装完成"
+          else
+            echo "jq 已存在，版本: $(jq --version)"
+          fi
 
       # tag 同步 package.json 版本
       - name: Sync package.json version with tag
@@ -85,7 +92,22 @@ jobs:
 
       # 打印将要发布的文件列表，避免误发布
       - name: Check package contents
-        run: npm pack --dry-run
+        run:
+          npm pack --dry-run
+
+          # 配置 npm 认证 - 只在标签触发时执行
+      - name: Configure npm authentication
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          echo "配置 npm 认证..."
+          npm config set registry https://registry.npmjs.org/
+          npm config set //registry.npmjs.org/:_authToken $NODE_AUTH_TOKEN
+          echo "npm 配置检查:"
+          npm config list
+          echo "npm 登录状态检查:"
+          npm whoami || echo "npm 未登录（这是正常的，我们使用 token 认证）"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # 发布到 npm registry - 只在标签触发时执行
       - name: Publish to npm
