@@ -79,7 +79,7 @@ jobs:
       - name: Build with Vite
         run: |
           echo "开始构建..."
-          pnpm run build --verbose
+          pnpm run build
           echo "构建完成"
 
       # 打印将要发布的文件列表，避免误发布
