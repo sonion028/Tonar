@@ -29,8 +29,9 @@ jobs:
 
       - name: Install pnpm globally # 全局安装 pnpm
         uses: pnpm/action-setup@v4
-        # with:
-        #   version: 10.22.0 # 不写version会读取package.json 的 engines.pnpm
+        with:
+          run_install: false
+          # version: 10.22.0 # 不写version会读取package.json 的 engines.pnpm
 
       - name: Install dependencies with pnpm # 使用 pnpm 安装依赖 等价于 npm ci
         run: pnpm install --frozen-lockfile
