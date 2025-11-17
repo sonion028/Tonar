@@ -92,22 +92,7 @@ jobs:
 
       # 打印将要发布的文件列表，避免误发布
       - name: Check package contents
-        run:
-          npm pack --dry-run
-
-          # 配置 npm 认证 - 只在标签触发时执行
-      - name: Configure npm authentication
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          echo "配置 npm 认证..."
-          npm config set registry https://registry.npmjs.org/
-          npm config set //registry.npmjs.org/:_authToken $NODE_AUTH_TOKEN
-          echo "npm 配置检查:"
-          npm config list
-          echo "npm 登录状态检查:"
-          npm whoami || echo "npm 未登录（这是正常的，我们使用 token 认证）"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUBPUBLISHTONAR }}
+        run: npm pack --dry-run
 
       # 发布到 npm registry - 只在标签触发时执行
       - name: Publish to npm
@@ -117,5 +102,5 @@ jobs:
           npm publish --access public --verbose
           echo "发布成功"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUBPUBLISHTONAR }}
+          NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_TONAR }}
           # 在npm生成access token，假如github具体仓库的Settings->Security->Secrets and variables->Actions
