@@ -52,17 +52,18 @@ jobs:
           echo "pnpm 全局路径: $(pnpm root -g)"
           echo "PATH: $PATH"
 
-      # 安装 jq（解决版本同步可能的依赖问题）
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
-
       - name: Install dependencies with pnpm # 使用 pnpm 安装依赖 等价于 npm ci
         run: |
           echo "开始安装依赖..."
           pnpm install --frozen-lockfile --verbose
           echo "依赖安装完成"
 
-      - name: Sync package.json version with tag # tag 同步 package.json 版本
+      # 安装 jq（解决版本同步可能的依赖问题）
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      # tag 同步 package.json 版本
+      - name: Sync package.json version with tag
         run: |
           set -e
           TAG=${GITHUB_REF#refs/tags/}
@@ -86,8 +87,9 @@ jobs:
       - name: Check package contents
         run: npm pack --dry-run
 
-      # 发布到 npm  registry
+      # 发布到 npm registry - 只在标签触发时执行
       - name: Publish to npm
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           echo "开始发布到 npm..."
           npm publish --access public --verbose
