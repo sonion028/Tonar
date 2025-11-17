@@ -11,7 +11,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
     "lint:spellcheck": "cspell lint \"(src | packages)/**/*.{js, ts, jsx, tsx, mjs, cjs, json, css, less, scss, vue, html, md}\"",
-    "preinstall": "node ./scripts/ensure-pnpm.js"
+    "preinstall": "only-allow pnpm"
   },
   "engines": {
     "node": ">=24.11.1",
