@@ -5,6 +5,7 @@ on:
     tags:
       - 'v*.*.*' # 例如 v1.2.3
 
+# Trusted Publisher 权限
 permissions:
   id-token: write # Required for OIDC
   contents: read
