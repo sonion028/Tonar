@@ -2,14 +2,15 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*.*.*' # 例如 v1.2.3
+    branches:
+      - main
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest # 使用最新的 Ubuntu Runner
+    environment: production-publish-npm # 指定环境名
 
     steps:
       - name: Checkout
@@ -23,7 +24,7 @@ jobs:
       - name: Install pnpm globally # 全局安装 pnpm
         uses: pnpm/action-setup@v4
         with:
-          run_install: false
+          run_install: false # 不运行 pnpm install
           # version: 10.22.0 # 不写version会读取package.json 的 packageManager
 
       - name: Setup Node.js # 安装 node
@@ -52,7 +53,8 @@ jobs:
           echo "pnpm 全局路径: $(pnpm root -g)"
           echo "PATH: $PATH"
 
-      - name: Install dependencies with pnpm # 使用 pnpm 安装依赖 等价于 npm ci
+      # 使用 pnpm 安装依赖 等价于 npm ci
+      - name: Install dependencies with pnpm
         run: |
           echo "开始安装依赖..."
           pnpm install --frozen-lockfile --verbose
@@ -103,4 +105,3 @@ jobs:
           echo "发布成功"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_TONAR }}
-          # 在npm生成access token，假如github具体仓库的Settings->Security->Secrets and variables->Actions
