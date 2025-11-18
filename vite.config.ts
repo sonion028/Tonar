@@ -10,6 +10,18 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  // CSS 配置
+  css: {
+    modules: {
+      localsConvention: 'camelCaseOnly', // 推荐使用驼峰命名
+    },
+    preprocessorOptions: {
+      scss: {
+        // 如果你有全局 SCSS 变量，可以在这里导入
+        // additionalData: `@import "@/styles/variables.scss";`,
+      },
+    },
+  },
   build: {
     lib: {
       entry: 'src/index.ts',
