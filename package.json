@@ -52,5 +52,10 @@
     "hooks"
   ],
   "author": "sonion",
-  "license": "MIT"
+  "license": "MIT",
+  "gitRepository": "https://github.com/sonion028/tonar",
+  "bugs": {
+    "url": "https://github.com/sonion028/tonar/issues"
+  },
+  "private": "false"
 }
