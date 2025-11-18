@@ -9,6 +9,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "lint:error": "eslint src --ext .ts,.tsx --quiet",
     "format": "prettier --write \"src/**/*.*\"",
     "lint:spellcheck": "cspell lint \"(src | packages)/**/*.{js, ts, jsx, tsx, mjs, cjs, json, css, less, scss, vue, html, md}\"",
     "preinstall": "only-allow pnpm"

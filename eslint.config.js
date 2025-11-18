@@ -27,7 +27,8 @@ export default defineConfig([
       },
     },
     rules: {
-      'react-hooks/exhaustive-deps': 'off', // ✅ 警告不完整的依赖项
+      'react/react-in-jsx-scope': 'off', // ✅ 关闭 React 17+ ，JSX 可以空标签
+      'react-hooks/exhaustive-deps': 'warn', // ✅ 不完整的依赖项
       '@typescript-eslint/no-unused-expressions': 'off', // ✅ 关闭未使用表达式校验，开启React常用的短路规则可能误判
       '@typescript-eslint/no-unused-vars': ['warn'], // ✅ 警告未使用变量 如遇到 与tsconfig.json 冲突，以ts为准
     },

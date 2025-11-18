@@ -36,6 +36,11 @@ export default defineConfig({
           react: 'React',
           'react-dom': 'ReactDOM',
         },
+        // assetFileNames: `css/[name].[hash][extname]`,
+        assetFileNames: ({ names }) => {
+          const path = /\.(css|scss|sass)$/i.test(names[0]) ? 'css' : 'assets';
+          return `${path}/[name].[hash][extname]`;
+        },
       },
     },
   },
