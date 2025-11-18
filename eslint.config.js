@@ -16,7 +16,7 @@ export default defineConfig([
   reactRefresh.configs.vite, // ✅ React Refresh 插件注册; 扁平插件配置对象, vite 环境下需要配置
   react.configs.flat.recommended, // ✅ React 扁平插件配置对象
   {
-    files: ['**/*.{ts,tsx}'], // 对所有 TypeScript 和 TypeScript React 文件应用规则
+    files: ['**/*.{ts,tsx,js,jsx}'], // 对所有 TS TSX JS JSX 文件应用规则
     languageOptions: {
       ecmaVersion: 2020, // ✅ 语法检查 支持的 ES 版本
       globals: globals.browser, // ✅ 浏览器全局变量

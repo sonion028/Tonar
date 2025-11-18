@@ -2,9 +2,14 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import path from 'path';
+import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
 export default defineConfig({
-  plugins: [react(), dts({ insertTypesEntry: true })],
+  plugins: [
+    react(),
+    dts({ insertTypesEntry: true }), // 生成类型声明文件
+    libInjectCss(), // 注入 CSS 到每个生成的 chunk 文件
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -36,12 +41,14 @@ export default defineConfig({
           react: 'React',
           'react-dom': 'ReactDOM',
         },
-        // assetFileNames: `css/[name].[hash][extname]`,
-        assetFileNames: ({ names }) => {
-          const path = /\.(css|scss|sass)$/i.test(names[0]) ? 'css' : 'assets';
-          return `${path}/[name].[hash][extname]`;
-        },
+        assetFileNames: `css/[name].[hash][extname]`,
+        // assetFileNames: ({ names }) => {
+        //   const path = /\.(css|scss|sass)$/i.test(names[0]) ? 'css' : 'assets';
+        //   return `${path}/[name].[hash][extname]`;
+        // },
       },
     },
+    // 不用 libInjectCss 设置cssCodeSplit css文件名会变为index，不设置就跟随build.lib.name
+    cssCodeSplit: true, // 开启 CSS 代码分割
   },
 });
