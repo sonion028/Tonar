@@ -53,7 +53,7 @@
   ],
   "author": "sonion",
   "license": "MIT",
-  "gitRepository": "https://github.com/sonion028/tonar",
+  "repository": "https://github.com/sonion028/tonar",
   "bugs": {
     "url": "https://github.com/sonion028/tonar/issues"
   },
