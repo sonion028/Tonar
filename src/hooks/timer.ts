@@ -10,14 +10,16 @@ import { type RAfIntervalReturn, rAfInterval, clearRAfInterval } from '@/utils';
  */
 export const useInterval = (cb: () => void, duration: number) => {
   const timer = useRef<ReturnType<typeof setTimeout>>(void 0);
+  const cbRef = useRef(cb);
+  cbRef.current = cb;
   const run = useCallback(() => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      cb();
+      cbRef.current();
       // eslint-disable-next-line react-hooks/immutability
-      run();
+      run?.();
     }, duration);
-  }, [cb, duration]);
+  }, [duration]);
   const stop = useCallback(() => clearTimeout(timer.current), [timer]);
   return [run, stop];
 };

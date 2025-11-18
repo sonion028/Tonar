@@ -28,15 +28,18 @@ export const useMutationObserver = (
   // 且observe不是作为依赖，而是直接绑定dom或依赖其它重渲染会改变的状态就不会有问题。
   // 或用Set存下历史观察，重生成时恢复，但不能用WeakSet，非必要不建议
   /** 开始观察 因重新生成观察器observe不会更新，故不可以observe是否更新做依赖依据 */
-  const observe = useCallback((el?: Node, options?: MutationObserverInit) => {
-    observerRef.current ??= new MutationObserver(
-      (mutations: MutationRecord[], observer: MutationObserver) => {
-        callbackRef.current(mutations);
-        once && observer.disconnect();
-      }
-    );
-    el && observerRef.current?.observe?.(el, options);
-  }, []);
+  const observe = useCallback(
+    (el?: Node, options?: MutationObserverInit) => {
+      observerRef.current ??= new MutationObserver(
+        (mutations: MutationRecord[], observer: MutationObserver) => {
+          callbackRef.current(mutations);
+          once && observer.disconnect();
+        }
+      );
+      el && observerRef.current?.observe?.(el, options);
+    },
+    [once]
+  );
 
   /** 获取所有未处理的观察记录 */
   const takeRecords = useCallback(
@@ -116,7 +119,9 @@ export const useIntersectionObserver = ({
       }, options);
       el && observerRef.current?.observe?.(el);
     },
-    [options]
+    // rootRef 已经是options 依赖了
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [options, once]
   );
 
   /** 取消观察 */
@@ -168,7 +173,7 @@ export const useResizeObserver = (
       );
       el && observerRef.current?.observe?.(el, options);
     },
-    []
+    [once]
   );
 
   /** 取消观察 */

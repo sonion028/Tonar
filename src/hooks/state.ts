@@ -13,8 +13,7 @@ export const useStaticState = <T>(initialValue: T) => {
     (t?: T) => (t === void 0 ? ref.current : (ref.current = t)),
     []
   );
-  // eslint-disable-next-line react-hooks/refs
-  return [getValue, setValue, withValue, ref.current] as const;
+  return [getValue, setValue, withValue] as const;
 };
 
 /**
@@ -31,6 +30,7 @@ export const useCreateSafeRef = <T extends object = HTMLElement>(
     el,
     useCallback(
       (node: T | null) => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         hasDiff ??= (node, el) => node !== el;
         if (node && hasDiff(node, el)) {
           isReadyRef.current = true;
@@ -45,7 +45,8 @@ export const useCreateSafeRef = <T extends object = HTMLElement>(
 
 /**
  * @author: sonion
- * @description: 创建最新的回调函数，不触发重新执行，同时避免闭包问题
+ * @description: 创建最新的回调函数，不触发重新执行，同时避免闭包问题。
+ * 作用类似19.2的useEffectEvent，但原理和用法不同。
  * @param {T} dep - 依赖函数、依赖函数数组、依赖函数对象
  * @return {()=>T} - 获取最新回调函数、依赖函数数组、依赖函数对象的方法
  */
@@ -89,6 +90,7 @@ export const useDistinctState = <T>({
     (val: T | ((p: T) => T)) => {
       const value =
         typeof val === 'function' ? (val as (p: T) => T)(prevRef.current) : val;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       hasDiff ??= (prev, next) => prev !== next;
       if (hasDiff(prevRef.current, value)) {
         const onChange = getOnChange();
