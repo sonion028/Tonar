@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*.*.*' # 例如 v1.2.3
 
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
 jobs:
   build-and-publish:
     # 仅在 main 分支上的 tag 触发
