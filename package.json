@@ -4,7 +4,25 @@
   "description": "Tonar: A frontend library with utils, hooks, and React components.",
   "type": "module",
   "module": "dist/index.es.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/index.utils.es.js",
+      "types": "./dist/types/utils.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/index.hooks.es.js",
+      "types": "./dist/types/hooks.d.ts"
+    },
+    "./components": {
+      "import": "./dist/index.components.es.js",
+      "types": "./dist/types/components.d.ts"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "rm -rf dist && vite build",

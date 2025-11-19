@@ -7,7 +7,7 @@ import { libInjectCss } from 'vite-plugin-lib-inject-css';
 export default defineConfig({
   plugins: [
     react(),
-    dts({ insertTypesEntry: true }), // 生成类型声明文件
+    dts({ insertTypesEntry: true, outDir: 'dist/types' }), // 生成类型声明文件
     libInjectCss(), // 注入 CSS 到每个生成的 chunk 文件
   ],
   resolve: {
@@ -20,19 +20,18 @@ export default defineConfig({
     modules: {
       localsConvention: 'camelCaseOnly', // 推荐使用驼峰命名
     },
-    preprocessorOptions: {
-      scss: {
-        // 如果你有全局 SCSS 变量，可以在这里导入
-        // additionalData: `@import "@/styles/variables.scss";`,
-      },
-    },
   },
   build: {
     lib: {
-      entry: 'src/index.ts',
+      entry: {
+        index: 'src/index.ts',
+        hooks: 'src/hooks/index.ts',
+        utils: 'src/utils/index.ts',
+        components: 'src/components/index.ts',
+      },
       name: 'Tonar',
       formats: ['es'], // 只输出 ESM
-      fileName: (format) => `index.${format}.js`,
+      fileName: (format, entryName) => `index.${entryName}.${format}.js`,
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
@@ -42,10 +41,7 @@ export default defineConfig({
           'react-dom': 'ReactDOM',
         },
         assetFileNames: `css/[name].[hash][extname]`,
-        // assetFileNames: ({ names }) => {
-        //   const path = /\.(css|scss|sass)$/i.test(names[0]) ? 'css' : 'assets';
-        //   return `${path}/[name].[hash][extname]`;
-        // },
+        chunkFileNames: `js/[name].[hash].js`, // 除入口外的 chunk 文件放js文件夹
       },
     },
     // 不用 libInjectCss 设置cssCodeSplit css文件名会变为index，不设置就跟随build.lib.name
