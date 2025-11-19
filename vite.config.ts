@@ -31,7 +31,7 @@ export default defineConfig({
       },
       name: 'Tonar',
       formats: ['es'], // 只输出 ESM
-      fileName: (format, entryName) => `index.${entryName}.${format}.js`,
+      fileName: (format, entryName) => `${entryName}.${format}.js`,
     },
     rollupOptions: {
       external: ['react', 'react-dom'],

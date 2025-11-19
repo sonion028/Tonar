@@ -11,15 +11,15 @@
       "types": "./dist/types/index.d.ts"
     },
     "./utils": {
-      "import": "./dist/index.utils.es.js",
+      "import": "./dist/utils.es.js",
       "types": "./dist/types/utils.d.ts"
     },
     "./hooks": {
-      "import": "./dist/index.hooks.es.js",
+      "import": "./dist/hooks.es.js",
       "types": "./dist/types/hooks.d.ts"
     },
     "./components": {
-      "import": "./dist/index.components.es.js",
+      "import": "./dist/components.es.js",
       "types": "./dist/types/components.d.ts"
     }
   },
