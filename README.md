@@ -5,7 +5,6 @@
 - ✅ 支持 **React 18+**
 - ✅ 只支持 **ESM（不支持 CommonJS）**
 - ✅ 支持 **TypeScript**
-- ✅ 支持 **ESNext 语法**
 - ✅ 支持 **Tree-shaking**
 
 Tonar is a modern frontend library that provides **utility functions**, **React hooks**, and **React components**.
@@ -13,7 +12,6 @@ Tonar is a modern frontend library that provides **utility functions**, **React 
 - ✅ Supports **React 18+**
 - ✅ Only supports **ESM (does not support CommonJS)**
 - ✅ Supports **TypeScript**
-- ✅ Supports **ESNext syntax**
 - ✅ Supports **Tree-shaking**
 
 ---

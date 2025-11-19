@@ -22,6 +22,7 @@ export default defineConfig({
     },
   },
   build: {
+    target: 'es2020',
     lib: {
       entry: {
         index: 'src/index.ts',
