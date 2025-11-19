@@ -17,43 +17,68 @@ import {
 
 import styles from './index.module.scss';
 
-const Carousel = forwardRef<
-  {
-    run: () => void; // 开始播放
-    stop: () => void; // 停止播放
-    stepChange: (arg: 'prev' | 'next') => void; // 切换到上一个或下一个
-    jumpChange: (arg: number) => void; // 跳转到指定索引
-    getCurrentIndex: () => number; // 获取当前索引
-  },
-  {
-    cardWidth?: number; // 单个轮播
-    cardHeight?: number;
-    wrapperWidth?: number; // 容器
-    wrapperHeight?: number;
-    gapSize?: number; // 间隔
-    loop?: boolean; // 是否循环
-    duration?: number; // 切换时间
-    autoPlay?: boolean; // 是否自动播放
-    showArrow?: ShowArrowType; // 箭头类型
-    indicatorType?: 'line' | 'dot' | 'none'; // 指示器类型
-    className?: string; // 主轮播类名，不包括指示器
-    style?: CSSProperties; // 主轮播样式，不包括指示器
-    children: ReactElement[]; // 轮播项
-    rerender?: RerenderType; // 轮播项更新依赖方式
-    onNonLoopEnd?: (
-      direction: 'prev' | 'next', // 切换方向
-      current: number, // 当前索引
-      total: number, // 轮播总数
-      offset: number // 偏移量
-    ) => void; // 非循环模式下，轮播结束回调。
-    offsetOnEnd?: number; // 非循环模式下，轮播结束时的偏移量。就是提前第几张就算结束。暂不支持延后。
-    // 因外框可达于轮播项，一页可能展示多张，设置偏移时注意是否可能永远触发不到
-    arrows?: [
-      FC<{ onClick: () => void; className?: string }>,
-      FC<{ onClick: () => void; className?: string }>,
-    ]; // 自定义渲染箭头
-  }
->(
+export type { ShowArrowType, RerenderType };
+
+export type CarouselProps = {
+  cardWidth?: number; // 单个轮播
+  cardHeight?: number;
+  wrapperWidth?: number; // 容器
+  wrapperHeight?: number;
+  gapSize?: number; // 间隔
+  loop?: boolean; // 是否循环
+  duration?: number; // 切换时间
+  autoPlay?: boolean; // 是否自动播放
+  showArrow?: ShowArrowType; // 箭头类型
+  indicatorType?: 'line' | 'dot' | 'none'; // 指示器类型
+  className?: string; // 主轮播类名，不包括指示器
+  style?: CSSProperties; // 主轮播样式，不包括指示器
+  children: ReactElement[]; // 轮播项
+  rerender?: RerenderType; // 轮播项更新依赖方式
+  onNonLoopEnd?: (
+    direction: 'prev' | 'next', // 切换方向
+    current: number, // 当前索引
+    total: number, // 轮播总数
+    offset: number // 偏移量
+  ) => void; // 非循环模式下，轮播结束回调。
+  offsetOnEnd?: number; // 非循环模式下，轮播结束时的偏移量。就是提前第几张就算结束。暂不支持延后。
+  // 因外框可达于轮播项，一页可能展示多张，设置偏移时注意是否可能永远触发不到
+  arrows?: [
+    FC<{ onClick: () => void; className?: string }>,
+    FC<{ onClick: () => void; className?: string }>,
+  ]; // 自定义渲染箭头
+};
+
+type CarouselRef = {
+  run: () => void; // 开始播放
+  stop: () => void; // 停止播放
+  stepChange: (arg: 'prev' | 'next') => void; // 切换到上一个或下一个
+  jumpChange: (arg: number) => void; // 跳转到指定索引
+  getCurrentIndex: () => number; // 获取当前索引
+};
+
+/**
+ * @author: sonion
+ * @description: 轮播组件，用于展示多个轮播项
+ * @param {Props} props - 组件的属性
+ * @param {number} [props.cardWidth] - 单个轮播项的宽度
+ * @param {number} [props.cardHeight] - 单个轮播项的高度
+ * @param {number} [props.wrapperWidth] - 轮播容器的宽度
+ * @param {number} [props.wrapperHeight] - 轮播容器的高度
+ * @param {number} [props.gapSize] - 轮播项之间的间隔
+ * @param {boolean} [props.loop] - 是否无缝循环
+ * @param {number} [props.duration=6000] - 切换时间（毫秒）
+ * @param {boolean} [props.autoPlay=true] - 是否自动播放
+ * @param {ShowArrowType} [props.showArrow='always'] - 箭头类型
+ * @param {IndicatorType} [props.indicatorType='line'] - 指示器类型
+ * @param {string} [props.className] - 主轮播类名，不包括指示器
+ * @param {CSSProperties} [props.style] - 主轮播样式，不包括指示器
+ * @param {ReactElement[]} children - 轮播项
+ * @param {RerenderType} [props.rerender='length'] - 轮播项更新依赖方式
+ * @param {(direction: 'prev' | 'next', current: number, total: number, offset: number) => void} [props.onNonLoopEnd] - 非循环模式下，轮播结束回调。
+ * @param {number} [props.offsetOnEnd=0] - 非循环模式下，轮播结束时的偏移量。就是提前第几张就算结束。暂不支持延后。
+ * @param {[FC<{ onClick: () => void; className?: string }>, FC<{ onClick: () => void; className?: string }>]} [props.arrows] - 自定义渲染箭头
+ */
+const Carousel = forwardRef<CarouselRef, CarouselProps>(
   (
     {
       cardWidth,

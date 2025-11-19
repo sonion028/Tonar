@@ -35,8 +35,8 @@ export const extractChildrenByType = <T>(
  * @author: sonion
  * @description: 从子节点中获取指定类型节点
  * @param {ReactNode} children - 子节点
- * @param {ComponentType} component - 组件
- * @return - 返回符合条件的ReactElement
+ * @param {ComponentType} component - 组件，多个组件时，返回符合条件的ReactElement数组
+ * @return - 返回符合条件的ReactElement数组
  */
 export const extractChildrenListByType = (
   children: ReactNode,

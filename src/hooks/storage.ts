@@ -8,7 +8,7 @@ const handleMap = new Map<string, () => void>();
  * @param {string} key - 储存的key
  * @param {T} initialValue - 初始值
  * @param {typeof localStorage | typeof sessionStorage} [storage=localStorage] - 储存类型
- * @param {() => void} [beforeunload] - 关闭前的回调, 相同key的不同回调会被覆盖。
+ * @param {() => void} [beforeunload] - tab关闭前的回调, 相同key的不同回调会被覆盖。
  * @param {(val: T) => boolean} [checkType] - 初始化类型检查函数，检查不通过使用初始值。可避免类型不对引起的错误
  */
 export const useStorage = <T>({

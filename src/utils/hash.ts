@@ -1,3 +1,5 @@
+export type SupportedHashType = 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
+
 /**
  * @author: sonion
  * @description: 字符串转哈希
@@ -6,7 +8,7 @@
  */
 export async function stringToHash(
   message: string,
-  algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-1'
+  algorithm: SupportedHashType = 'SHA-1'
 ): Promise<string> {
   try {
     if (!message) {
