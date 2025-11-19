@@ -67,7 +67,10 @@
     "vite-plugin-lib-inject-css": "^2.2.2"
   },
   "keywords": [
-    "hooks"
+    "hooks",
+    "utils",
+    "components",
+    "react"
   ],
   "author": "sonion",
   "license": "MIT",

@@ -1,8 +1,24 @@
 # Tonar
 
-Tonar: A frontend library with utils, hooks, and React components.
+**Tonar** 是一个现代前端工具库，提供常用的 **工具函数 (Utils)**、**React 钩子函数 (Hooks)** 和 **React 组件 (Components)**。
 
-# Installation
+- ✅ 支持 **React 18+**
+- ✅ 只支持 **ESM（不支持 CommonJS）**
+- ✅ 支持 **TypeScript**
+- ✅ 支持 **ESNext 语法**
+- ✅ 支持 **Tree-shaking**
+
+Tonar is a modern frontend library that provides **utility functions**, **React hooks**, and **React components**.
+
+- ✅ Supports **React 18+**
+- ✅ Only supports **ESM (does not support CommonJS)**
+- ✅ Supports **TypeScript**
+- ✅ Supports **ESNext syntax**
+- ✅ Supports **Tree-shaking**
+
+---
+
+## 📦 Installation / 安装
 
 ```bash
 npm install tonar
@@ -10,55 +26,125 @@ pnpm add tonar
 yarn add tonar
 ```
 
-# Usage
+## 🚀 Usage / 使用方法
 
-### All（utils、hooks、components）所有
+#### 📥 Unified Import（统一导入：utils、hooks、components）
 
-```jsx
-import { useDistinctState } from 'tonar';
+```ts
+import {
+  Carousel,
+  useDistinctState,
+  rAfInterval,
+  type RAfIntervalReturn,
+  // ...other components、hooks、utils
+} from 'tonar';
 ```
 
-### Components（轮播、自定义展示、异步自定义展示、错误边界）组件
+#### 🧩 Components / 组件
 
-```jsx
+- Carousel （轮播组件）
+- CustomShow （自定义展示组件）
+- AsyncCustomShow （异步自定义展示组件）
+- ErrorBoundary （错误边界组件）
+
+```js
 import {
   Carousel,
   CustomShow,
-  AsyncCustomShow,
-  ErrorBoundary,
+  // ...other components
 } from 'tonar/components';
 ```
 
-### Hooks（安全引用、差异才更新的状态、静态属性、异步操作锁、定时器、RAf定时器、保持稳定的最新回调、交叉观察器、突变观察器、调整观察器、本地存储）
+#### 🔗 Hooks / 钩子函数
 
-```jsx
+- useCreateSafeRef （安全引用）
+- useDistinctState （差异才更新的状态）
+- useStaticState （静态属性）
+- useAsyncActionLock （异步操作锁）
+- useInterval （定时器）
+- useRAfInterval （RAf 定时器）
+- useLatestCallback （保持稳定的最新回调）
+- useIntersectionObserver （交叉观察器）
+- useMutationObserver （突变观察器）
+- useResizeObserver （调整观察器）
+- useStorage （本地存储）
+
+```js
 import {
   useCreateSafeRef,
   useDistinctState,
-  useStaticState,
-  useAsyncActionLock,
-  useInterval,
-  useRAfInterval,
-  useLatestCallback,
-  useIntersectionObserver,
-  useMutationObserver,
-  useResizeObserver,
-  useStorage,
+  // ...other hooks
 } from 'tonar/hooks';
 ```
 
-### Utils（防抖、深拷贝、字符串转哈希值、浏览器原生下载、Blob下载、获取react子节点中符合多个指定类型的节点数组、获取react子节点中单个指定类型的节点、RAf定时器、清除RAf定时器）
+#### 🛠️ Utils / 工具函数
 
-```jsx
+- debounce （防抖）
+- deepClone （深拷贝）
+- stringToHash （字符串转哈希值）
+- browserNativeDownload （浏览器原生下载）
+- blobDownload （Blob 下载）
+- extractChildrenListByType （获取 React 子节点中符合多个指定类型的节点数组）
+- extractChildrenByType （获取 React 子节点中单个指定类型的节点）
+- rAfInterval （RAf 定时器）
+- clearRAfInterval （清除 RAf 定时器）
+
+```js
 import {
   debounce,
   deepClone,
-  stringToHash,
-  browserNativeDownload,
-  blobDownload,
-  extractChildrenListByType,
-  extractChildrenByType,
-  rAfInterval,
-  clearRAfInterval,
+  // ...other utils
 } from 'tonar/utils';
 ```
+
+## 📖 Example / 示例
+
+#### 一个简单的 React 页面同时使用 Carousel 组件、Hook 和 Utils：
+
+```tsx
+import React from 'react';
+import { Carousel, ErrorBoundary } from 'tonar/components';
+import { useDistinctState } from 'tonar/hooks';
+import { debounce } from 'tonar/utils';
+
+export default function App() {
+  const [count, setCount] = useDistinctState(0);
+
+  const handleClick = debounce(() => {
+    setCount(count + 1);
+  }, 300);
+
+  return (
+    <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <h1>Tonar Demo</h1>
+      <button onClick={handleClick}>Click Me ({count})</button>
+      <Carousel cardWidth={200} cardHeight={120}>
+        <div style={{ background: 'lightblue' }}>Slide 1</div>
+        <div style={{ background: 'lightgreen' }}>Slide 2</div>
+        <div style={{ background: 'lightpink' }}>Slide 3</div>
+      </Carousel>
+    </ErrorBoundary>
+  );
+}
+```
+
+## 📚 TypeScript tips / 类型导入提示
+
+#### 从包根目录直接导入类型（例如组件 Props）：
+
+```ts
+import { type CarouselProps } from 'tonar';
+```
+
+#### 或按子路径导入（如果你更喜欢明确的来源）：
+
+```ts
+import type { CarouselProps } from 'tonar/components';
+```
+
+## 📝 License / 许可证
+
+MIT © Sonion
+
+欢迎 [Pull Requests](https://github.com/sonion028/tonar/pulls) 和 [Issues](https://github.com/sonion028/tonar/issues)  
+源码仓库：[https://github.com/sonion028/tonar](https://github.com/sonion028/tonar)
