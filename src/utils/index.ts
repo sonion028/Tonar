@@ -11,3 +11,4 @@ export {
   rAfInterval,
   clearRAfInterval,
 } from './rAfInterval';
+import './dev';

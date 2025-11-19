@@ -1,11 +1,11 @@
 import { type FC, type ReactNode, type PropsWithChildren } from 'react';
 
-type CustomShowProps<T> = PropsWithChildren<{
+export type CustomShowProps<T> = PropsWithChildren<{
   when: T | null | void | false;
   fallback?: ReactNode;
 }>;
 
-export interface CustomShow<T> extends FC<CustomShowProps<T>> {
+export interface CustomShowType<T> extends FC<CustomShowProps<T>> {
   (props: CustomShowProps<T>): ReactNode;
 }
 
@@ -20,11 +20,8 @@ function CustomShow<T>({
   when,
   fallback = void 0,
   children,
-}: CustomShowProps<T>) {
+}: CustomShowProps<T>): ReactNode {
   return <>{when ? children : fallback}</>;
 }
 
 export default CustomShow;
-
-// utils.tsx
-export const notAComponent = 123; // ❌ 报错：不是组件

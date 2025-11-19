@@ -1,6 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 
-interface Props {
+export interface ErrorBoundaryProps {
   children: ReactNode;
   fallback: ReactNode;
   msg?: string;
@@ -18,7 +18,7 @@ interface State {
  * @param {string} [props.msg='组件加载失败'] - 错误信息的提示文本
  * @param {ReactNode} children - 子组件，可能会触发错误
  */
-export default class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundary extends Component<ErrorBoundaryProps, State> {
   state: State = { hasError: false };
   private msg: string = this.props.msg ?? '组件加载失败';
 
@@ -37,3 +37,8 @@ export default class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
+
+type ErrorBoundaryType = typeof ErrorBoundary;
+
+export type { ErrorBoundaryType };
+export default ErrorBoundary;

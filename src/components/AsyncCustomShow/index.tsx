@@ -1,10 +1,14 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { type FC, type ReactNode, useEffect, useState } from 'react';
 
-type AsyncCustomShowProps<T> = {
+export type AsyncCustomShowProps<T> = {
   when: Promise<T> | void | null | false;
   fallback?: ReactNode;
   children: (value: T | void | null | false) => ReactNode;
 };
+
+export interface AsyncCustomShowType<T> extends FC<AsyncCustomShowProps<T>> {
+  (props: AsyncCustomShowProps<T>): ReactNode;
+}
 
 /**
  * @author: sonion
@@ -18,7 +22,7 @@ function AsyncCustomShow<T>({
   when,
   fallback,
   children,
-}: AsyncCustomShowProps<T>) {
+}: AsyncCustomShowProps<T>): ReactNode {
   const [show, setShow] = useState<Awaited<typeof when>>(void 0);
   useEffect(() => {
     if (!when) return;

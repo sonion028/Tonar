@@ -17,8 +17,6 @@ import {
 
 import styles from './index.module.scss';
 
-export type { ShowArrowType, RerenderType };
-
 export type CarouselProps = {
   cardWidth?: number; // 单个轮播
   cardHeight?: number;
@@ -48,7 +46,7 @@ export type CarouselProps = {
   ]; // 自定义渲染箭头
 };
 
-type CarouselRef = {
+export type CarouselRef = {
   run: () => void; // 开始播放
   stop: () => void; // 停止播放
   stepChange: (arg: 'prev' | 'next') => void; // 切换到上一个或下一个
@@ -190,4 +188,7 @@ const Carousel = forwardRef<CarouselRef, CarouselProps>(
 );
 
 Carousel.displayName = 'Carousel'; // 调试/错误 信息友好；屏幕阅读器可识别组件
+
+type CarouselType = typeof Carousel;
+export type { ShowArrowType, RerenderType, CarouselType };
 export default Carousel;
