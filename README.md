@@ -3,15 +3,15 @@
 **Tonar** 是一个现代前端工具库，提供常用的 **工具函数 (Utils)**、**React 钩子函数 (Hooks)** 和 **React 组件 (Components)**。
 
 - ✅ 支持 **React 18+**
-- ✅ 只支持 **ESM（不支持 CommonJS）**
 - ✅ 支持 **TypeScript**
+- ✅ 仅支持 **ESM（不支持 CommonJS）**
 - ✅ 支持 **Tree-shaking**
 
 Tonar is a modern frontend library that provides **utility functions**, **React hooks**, and **React components**.
 
 - ✅ Supports **React 18+**
-- ✅ Only supports **ESM (does not support CommonJS)**
 - ✅ Supports **TypeScript**
+- ✅ Only supports **ESM (does not support CommonJS)**
 - ✅ Supports **Tree-shaking**
 
 ---
@@ -40,9 +40,9 @@ import {
 
 #### 🧩 Components / 组件
 
-- Carousel （轮播组件）
-- CustomShow （自定义展示组件）
-- AsyncCustomShow （异步自定义展示组件）
+- Carousel （轮播组件，支持轮播项宽度小于容器宽度）
+- CustomShow （条件展示组件）
+- AsyncCustomShow （异步条件展示组件）
 - ErrorBoundary （错误边界组件）
 
 ```js
@@ -55,17 +55,17 @@ import {
 
 #### 🔗 Hooks / 钩子函数
 
-- useCreateSafeRef （安全引用）
-- useDistinctState （差异才更新的状态）
-- useStaticState （静态属性）
-- useAsyncActionLock （异步操作锁）
+- useCreateSafeRef （安全引用，相同不更新，改变可触发更新, 支持自定义差异对比函数）
+- useDistinctState （差异才更新的状态，支持onChange事件和自定义差异对比函数）
+- useStaticState （静态属性，不触发react更新）
+- useAsyncActionLock （异步操作锁，根据传入异步函数确定是否可再触发，并提供运行中状态）
 - useInterval （定时器）
 - useRAfInterval （RAf 定时器）
-- useLatestCallback （保持稳定的最新回调）
+- useLatestCallback （保持稳定的最新回调，稳定引用函数与闭包获取新值不可兼得的问题）
 - useIntersectionObserver （交叉观察器）
-- useMutationObserver （突变观察器）
-- useResizeObserver （调整观察器）
-- useStorage （本地存储）
+- useMutationObserver （节点变化观察器）
+- useResizeObserver （尺寸变化观察器）
+- useStorage （支持事件的本地存储）
 
 ```js
 import {
@@ -78,9 +78,9 @@ import {
 #### 🛠️ Utils / 工具函数
 
 - debounce （防抖）
-- deepClone （深拷贝）
+- deepClone （深拷贝，支持Set、Map、ExpReg、Date、循环引用）
 - stringToHash （字符串转哈希值）
-- browserNativeDownload （浏览器原生下载）
+- browserNativeDownload （浏览器原生下载，支持检测是否被浏览器拦截）
 - blobDownload （Blob 下载）
 - extractChildrenListByType （获取 React 子节点中符合多个指定类型的节点数组）
 - extractChildrenByType （获取 React 子节点中单个指定类型的节点）
@@ -106,10 +106,11 @@ import { useDistinctState } from 'tonar/hooks';
 import { debounce } from 'tonar/utils';
 
 export default function App() {
-  const [count, setCount] = useDistinctState(0);
+  // 支持onChange事件和自定义差异对比函数
+  const [count, setCount] = useDistinctState({ initialValue: 0 });
 
   const handleClick = debounce(() => {
-    setCount(count + 1);
+    setCount(count + 1); // 仅值不相等时更新
   }, 300);
 
   return (
