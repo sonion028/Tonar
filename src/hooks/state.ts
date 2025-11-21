@@ -5,8 +5,8 @@ import { useState, useCallback, useRef } from 'react';
  * @description: 创建静态的state, 不会触发组件重新渲染
  * @param {T} initialValue - 初始值
  */
-export const useStaticState = <T>(initialValue: T) => {
-  const ref = useRef<T>(initialValue);
+export const useStaticState = <T>(initialValue?: T) => {
+  const ref = useRef<T | undefined>(initialValue);
   const getValue = useCallback(() => ref.current, []);
   const setValue = useCallback((t: T) => (ref.current = t), []);
   const withValue = useCallback(
@@ -53,7 +53,7 @@ export const useCreateSafeRef = <T extends object = HTMLElement>(
 export const useLatestCallback = <T>(dep: T) => {
   const ref = useRef(dep);
   // eslint-disable-next-line react-hooks/refs
-  ref.current = dep;
+  ref.current !== dep && (ref.current = dep);
   return useCallback<() => T>(() => ref.current, []);
 };
 
@@ -76,20 +76,22 @@ export const useDistinctState = <T>({
   hasDiff?: (node?: T, el?: T) => boolean;
   onlyEvent?: boolean;
 }) => {
-  const prevRef = useRef<T>(void 0 as T);
+  const prevRef = useRef<T | undefined>(void 0);
   // 初始化只可能是函数，所以包一层，在这层一起初始化prevRef的值，避免初始化重复调用
   const initial = () =>
     (prevRef.current =
       typeof initialValue === 'function'
         ? (initialValue as () => T)()
-        : (initialValue as T));
+        : initialValue);
   const [value, setValue] = useState(initial);
 
   const getOnChange = useLatestCallback(onChange);
   const setValueDistinct = useCallback(
-    (val: T | ((p: T) => T)) => {
+    (val: T | ((p?: T) => T)) => {
       const value =
-        typeof val === 'function' ? (val as (p: T) => T)(prevRef.current) : val;
+        typeof val === 'function'
+          ? (val as (p?: T) => T)(prevRef.current)
+          : val;
       // eslint-disable-next-line react-hooks/exhaustive-deps
       hasDiff ??= (prev, next) => prev !== next;
       if (hasDiff(prevRef.current, value)) {
