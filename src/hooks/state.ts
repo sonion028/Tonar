@@ -71,7 +71,7 @@ export const useDistinctState = <T>({
   hasDiff = (prev, next) => prev !== next,
   onlyEvent = false,
 }: {
-  initialValue: T | (() => T);
+  initialValue?: T | (() => T);
   onChange?: (val: T) => void;
   hasDiff?: (node?: T, el?: T) => boolean;
   onlyEvent?: boolean;
@@ -82,7 +82,7 @@ export const useDistinctState = <T>({
     (prevRef.current =
       typeof initialValue === 'function'
         ? (initialValue as () => T)()
-        : initialValue);
+        : (initialValue as T));
   const [value, setValue] = useState(initial);
 
   const getOnChange = useLatestCallback(onChange);

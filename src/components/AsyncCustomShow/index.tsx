@@ -7,7 +7,7 @@ export type AsyncCustomShowProps<T> = {
 };
 
 export interface AsyncCustomShowType<T> extends FC<AsyncCustomShowProps<T>> {
-  (props: AsyncCustomShowProps<T>): ReactNode;
+  (props: AsyncCustomShowProps<T>): JSX.Element;
 }
 
 /**
@@ -22,7 +22,7 @@ function AsyncCustomShow<T>({
   when,
   fallback,
   children,
-}: AsyncCustomShowProps<T>): ReactNode {
+}: AsyncCustomShowProps<T>) {
   const [show, setShow] = useState<Awaited<typeof when>>(void 0);
   useEffect(() => {
     if (!when) return;

@@ -6,7 +6,7 @@ export type CustomShowProps<T> = PropsWithChildren<{
 }>;
 
 export interface CustomShowType<T> extends FC<CustomShowProps<T>> {
-  (props: CustomShowProps<T>): ReactNode;
+  (props: CustomShowProps<T>): JSX.Element;
 }
 
 /**
@@ -20,7 +20,7 @@ function CustomShow<T>({
   when,
   fallback = void 0,
   children,
-}: CustomShowProps<T>): ReactNode {
+}: CustomShowProps<T>): JSX.Element {
   return <>{when ? children : fallback}</>;
 }
 
