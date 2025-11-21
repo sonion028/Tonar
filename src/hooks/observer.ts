@@ -29,7 +29,7 @@ export const useMutationObserver = (
   // 或用Set存下历史观察，重生成时恢复，但不能用WeakSet，非必要不建议
   /** 开始观察 因重新生成观察器observe不会更新，故不可以observe是否更新做依赖依据 */
   const observe = useCallback(
-    (el?: Node, options?: MutationObserverInit) => {
+    (el: Node | null, options?: MutationObserverInit) => {
       observerRef.current ??= new MutationObserver(
         (mutations: MutationRecord[], observer: MutationObserver) => {
           callbackRef.current(mutations);
@@ -43,7 +43,7 @@ export const useMutationObserver = (
 
   /** 获取所有未处理的观察记录 */
   const takeRecords = useCallback(
-    (el?: Element | SVGElement) => el && observerRef.current?.takeRecords?.(),
+    () => observerRef.current?.takeRecords?.(),
     []
   );
 
@@ -102,7 +102,7 @@ export const useIntersectionObserver = ({
 
   /** 开始观察 */
   const observe = useCallback(
-    (el?: Element) => {
+    (el: Element | null) => {
       // options变化，取消观察，重新生成观察器
       if (prevOptions.current !== options) {
         observerRef.current?.disconnect?.();
@@ -126,7 +126,7 @@ export const useIntersectionObserver = ({
 
   /** 取消观察 */
   const unobserve = useCallback(
-    (el?: HTMLElement) => el && observerRef.current?.unobserve?.(el),
+    (el: HTMLElement | null) => el && observerRef.current?.unobserve?.(el),
     []
   );
 
@@ -162,7 +162,7 @@ export const useResizeObserver = (
   // 或用Set存下历史观察，重生成时恢复，但不能用WeakSet，非必要不建议
   /** 开始观察 因重新生成观察器observe不会更新，故不可以observe是否更新做依赖依据 */
   const observe = useCallback(
-    (el?: Element | SVGElement, options?: ResizeObserverOptions) => {
+    (el: Element | null, options?: ResizeObserverOptions) => {
       observerRef.current ??= new ResizeObserver(
         (entries: ResizeObserverEntry[], observer: ResizeObserver) => {
           entries.forEach((entry) => {
@@ -178,7 +178,7 @@ export const useResizeObserver = (
 
   /** 取消观察 */
   const unobserve = useCallback(
-    (el?: Element | SVGElement) => el && observerRef.current?.unobserve?.(el),
+    (el: Element | null) => el && observerRef.current?.unobserve?.(el),
     []
   );
 
