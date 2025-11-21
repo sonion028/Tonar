@@ -1,20 +1,28 @@
 import { useState, useCallback, useRef } from 'react';
 
+export function useStaticState<T>(
+  initialValue: T
+): [() => T, (t: T) => void, (t?: T) => T];
+
+export function useStaticState<T>(
+  initialValue?: undefined
+): [() => T | undefined, (t: T) => void, (t?: T) => T | undefined];
+
 /**
  * @author: sonion
  * @description: 创建静态的state, 不会触发组件重新渲染
  * @param {T} initialValue - 初始值
  */
-export const useStaticState = <T>(initialValue?: T) => {
-  const ref = useRef<T | undefined>(initialValue);
+export function useStaticState<T>(initialValue?: T) {
+  const ref = useRef<T>(initialValue as T);
   const getValue = useCallback(() => ref.current, []);
   const setValue = useCallback((t: T) => (ref.current = t), []);
   const withValue = useCallback(
     (t?: T) => (t === void 0 ? ref.current : (ref.current = t)),
     []
   );
-  return [getValue, setValue, withValue] as const;
-};
+  return [getValue, setValue, withValue];
+}
 
 /**
  * @author: sonion
@@ -62,7 +70,7 @@ export function useDistinctState<T>({
 }: {
   initialValue: T;
   onChange?: (val: T) => void;
-  hasDiff?: (node?: T, el?: T) => boolean;
+  hasDiff?: (prev: T, next: T) => boolean;
   onlyEvent?: true | false;
 }) {
   const prevRef = useRef<T>(void 0 as T);
@@ -105,7 +113,7 @@ export function useDistinctState<T>({
  * @return {[HTMLElement, (node: HTMLElement)=>void]}
  */
 export const useCreateSafeRef = <T extends object = HTMLElement>(
-  hasDiff?: (node?: T, el?: T) => boolean
+  hasDiff?: (oldNode?: T, newNode?: T) => boolean
 ) => {
   const [el, setEl] = useState<T>();
   const isReadyRef = useRef(false); // 是否赋值完成
@@ -114,8 +122,8 @@ export const useCreateSafeRef = <T extends object = HTMLElement>(
     useCallback(
       (node: T | null) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        hasDiff ??= (node, el) => node !== el;
-        if (node && hasDiff(node, el)) {
+        hasDiff ??= (oldNode, newNode) => oldNode !== newNode;
+        if (node && hasDiff(el, node)) {
           isReadyRef.current = true;
           setEl(node);
         }
