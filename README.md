@@ -78,6 +78,8 @@ import {
 #### 🛠️ Utils / 工具函数
 
 - debounce （防抖）
+- safeAwait （安全 await，通过返回状态处理 reject 情况，避免 try-catch 嵌套）
+- ConcurrencyController （并发控制器）
 - deepClone （深拷贝，支持Set、Map、ExpReg、Date、循环引用）
 - stringToHash （字符串转哈希值）
 - browserNativeDownload （浏览器原生下载，支持检测是否被浏览器拦截）
@@ -90,7 +92,7 @@ import {
 ```js
 import {
   debounce,
-  deepClone,
+  ConcurrencyController,
   // ...other utils
 } from 'tonar/utils';
 ```
