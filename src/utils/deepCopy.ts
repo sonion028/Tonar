@@ -31,7 +31,7 @@ const isSet = <T>(val: unknown): val is Set<T> => {
   if (!isObject(val)) return false;
   if (val instanceof Set) return true;
   return (
-    Object.hasOwn(val as object, 'size') &&
+    Object.prototype.hasOwnProperty.call(val as object, 'size') &&
     typeof (val as Set<T>).add === 'function' &&
     typeof (val as Set<T>).has === 'function'
   );
@@ -46,7 +46,7 @@ const isMap = <K, V>(val: unknown): val is Map<K, V> => {
   if (!isObject(val)) return false;
   if (val instanceof Map) return true;
   return (
-    Object.hasOwn(val as object, 'size') &&
+    Object.prototype.hasOwnProperty.call(val as object, 'size') &&
     typeof (val as Map<K, V>).set === 'function' &&
     typeof (val as Map<K, V>).get === 'function'
   );
